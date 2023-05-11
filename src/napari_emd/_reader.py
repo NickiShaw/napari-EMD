@@ -29,7 +29,7 @@ def napari_get_reader(path):
         path = path[0]
 
     # if we know we cannot read the file, we immediately return None.
-    if not path.endswith(".npy"):
+    if not path.endswith(".emd"):
         return None
 
     # otherwise we return the *function* that can read ``path``.
