@@ -1,0 +1,11 @@
+name: napari-EMD
+display_name: EMD File Viewer
+contributions:
+  commands:
+    - id: napari-EMD.get_reader
+      python_name: napari_emd._reader:napari_get_reader
+      title: Open data with EMD File Viewer
+  readers:
+    - command: napari-EMD.get_reader
+      accepts_directories: false
+      filename_patterns: ['*.npy']
