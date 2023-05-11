@@ -27,5 +27,5 @@ def test_reader(tmp_path):
 
 
 def test_get_reader_pass():
-    reader = napari_get_reader("fake.emd")
+    reader = napari_get_reader("fake.notemd")
     assert reader is None
