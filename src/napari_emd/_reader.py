@@ -7,7 +7,6 @@ https://napari.org/stable/plugins/guides.html?#readers
 """
 import numpy as np
 import h5py
-from matplotlib import pyplot as plt
 
 class navigate:
 
@@ -90,18 +89,18 @@ class EMDreader:
         """
 
         data = self.unpackData()
-        data = data.reshape(data.shape[0], data.shape[1])
-        print(data.shape)
+        # Shape single frame data by removing final channel.
+        if data.shape[-1] == 1:
+            data = data.reshape(data.shape[0], data.shape[1])
+        # Shape multiple frame data with transpose.
+        else:
+            data = np.transpose(data)
 
         add_kwargs = {}
 
         layer_type = "image"  # optional, default is "image"
 
         return (data, add_kwargs, layer_type)
-
-
-
-
 
 def napari_get_reader(path):
     """A basic implementation of a Reader contribution.
@@ -159,52 +158,3 @@ def reader_function(path):
     else:
         # Return a single LayerData tuple.
         return [EMDreader(path).parseEMDdata()]
-
-
-
-    # # handle both a string and a list of strings
-    # paths = [path] if isinstance(path, str) else path
-    # # load all files into array
-    # arrays = [np.load(_path) for _path in paths]
-    # # stack arrays into single array
-    # data = np.squeeze(np.stack(arrays))
-    #
-    # # optional kwargs for the corresponding viewer.add_* method
-    # add_kwargs = {"metadata": ['test metadata']}
-    #
-    # layer_type = "image"  # optional, default is "image"
-    # return [(data, add_kwargs, layer_type)]
-
-
-from magicgui import magicgui
-import napari
-from napari.types import ImageData, LayerDataTuple
-from typing import List
-import numpy as np
-
-
-# def run_segment(*args, **kwargs):
-#     print('running segment')
-#     raise ValueError("I don't actually work")
-#     return [(args[0], {}, 'image')]
-#
-#
-# @magicgui(call_button="Segment")
-# def segmentation(
-#     data: ImageData, masks: ImageData, background: bool, membrane_width: int, min_size: int
-# ) -> List[LayerDataTuple]:
-#     return run_segment(data, masks, background, membrane_width, min_size)
-
-
-# print(image[0].shape)
-#
-# image1 = np.random.random((512, 512))
-# print(image1.shape)
-# stack = np.squeeze(np.stack([image1,image1,image1,image1]))
-
-
-# viewer.window.add_dock_widget(segmentation)
-
-#image = EMDreader(r"C:\Users\shawn\Downloads\feature.emd").parseEMDdata()
-#viewer = napari.view_image(image[0])
-#napari.run()

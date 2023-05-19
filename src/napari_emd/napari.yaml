@@ -5,7 +5,14 @@ contributions:
     - id: napari-EMD.get_reader
       python_name: napari_emd._reader:napari_get_reader
       title: Open data with EMD File Viewer
+    - id: napari-EMD.load_widget
+      title: Display metadata for EMD file
+      python_name: napari_emd._widget:EMDWidget
   readers:
     - command: napari-EMD.get_reader
       accepts_directories: false
       filename_patterns: ['*.emd']
+  widgets:
+    - command: napari-EMD.load_widget  # note, same as command.id above
+      display_name: EMD Reader Widget
+      autogenerate: false
