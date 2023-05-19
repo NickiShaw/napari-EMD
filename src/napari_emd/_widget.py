@@ -6,7 +6,6 @@ from napari_plugin_engine import napari_hook_implementation
 
 from qtpy.QtWidgets import QPushButton, QHBoxLayout, QVBoxLayout, QSpinBox, QLabel, QFrame, QFileDialog, QWidget, QApplication
 
-
 from typing import TYPE_CHECKING
 
 from magicgui import magic_factory
@@ -28,21 +27,13 @@ class EMDWidget(QWidget):
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(btn)
 
+        self.lb = QLabel('frame is' + str(self.viewer.dims.current_step[0]))
+        self.layout().addWidget(self.lb)
 
         self.viewer.dims.events.current_step.connect(self.update_metadata)
 
-        # def print_layer_name(event):
-        #     print(f"{event.source.name} changed its data!")
-        #
-        # self.viewer.layers
-        # layer.events.data.connect(print_layer_name)
-
-        # lb = QLabel('frame is' + str(self.viewer.dims.current_step))
-        # self.layout().addWidget(lb)
-
-    def update_metadata(self, metadataWidget):
-        lb = QLabel('frame is' + str(self.viewer.dims.current_step[0]))
-        self.layout().addWidget(lb)
+    def update_metadata(self):
+        self.lb.setText('frame is' + str(self.viewer.dims.current_step[0]))
         print('frame is' + str(self.viewer.dims.current_step[0]))
 
     def _on_click(self):
