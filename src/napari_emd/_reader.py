@@ -7,6 +7,10 @@ https://napari.org/stable/plugins/guides.html?#readers
 """
 import numpy as np
 import h5py
+import time
+import ujson
+from collections.abc import Iterable
+
 
 class navigate:
 
@@ -55,6 +59,20 @@ class navigate:
     def parseFileName(file):
         return str(file).split("/")[-1].split(".")[0]
 
+
+# class metadata:
+#
+#     def __init__(self, h5pyfile):
+#         metalocation = navigate.getMemberName(h5pyfile, '/Data/Image/')  # CAUTION, may break.
+#         self.meta = h5pyfile['/Data/Image/' + str(metalocation) + '/Metadata']
+#         self.nframes = self.meta.shape[1]
+#         self.transposed_meta = [list(i) for i in zip(*(self.meta[:]))]
+#
+
+#     def getMetaAllFrames(self, query):
+#         for i in range(self.nframes):
+#             meta = self.convertASCII(i)
+
 class EMDreader:
     """
     Unpacks emd data files with the h5py package, by navigating subdirectories.
@@ -64,19 +82,50 @@ class EMDreader:
     path : str
         Path to file, NOT a list of paths.
     """
+
     def __init__(self, singlePath: str):
-        self.singleH5pyObject = h5py.File(singlePath, 'r')
+        self.path = singlePath
+        self.singleH5pyObject = h5py.File(singlePath, 'r', driver='core')
+
+    @staticmethod
+    def convertASCII(transposed_meta, frame):
+        ascii_meta = transposed_meta[frame]
+        metadata_text = ''.join(chr(i) for i in ascii_meta)
+        ASCii = metadata_text.replace("\0", '')
+        return ujson.loads(ASCii)
+
+    def unpackMetadata(self):
+
+        # TODO add implementation to search subfolders if the format is not the Velox default.
+
+        try:
+            metadata = self.singleH5pyObject[
+                'Data/Image/' + navigate.getMemberName(self.singleH5pyObject, '/Data/Image/') + '/Metadata']
+            transposed_meta = [list(i) for i in zip(*(metadata[:]))]
+        except:
+            raise ValueError("Metadata was not able to be read, see unpackMetadata function.")
+
+        # Unpack metadata dictionaries.
+        meta = {}
+        nframes = metadata.shape[-1]
+        for i in range(nframes):
+            meta[i] = self.convertASCII(transposed_meta, i)
+
+        return meta
 
     def unpackData(self):
 
         # TODO add implementation to search subfolders if the format is not the Velox default.
 
         try:
-            data = self.singleH5pyObject['Data/Image/' + navigate.getMemberName(self.singleH5pyObject, '/Data/Image/') + '/Data']
-            return np.array(data)
+            data = self.singleH5pyObject[
+                'Data/Image/' + navigate.getMemberName(self.singleH5pyObject, '/Data/Image/') + '/Data']
+            data = np.array(data)
+            return data
 
         except:
             raise ValueError("File was not able to be read, see unpackData function.")
+
     def parseEMDdata(self):
         """
         Returns
@@ -94,13 +143,14 @@ class EMDreader:
             data = data.reshape(data.shape[0], data.shape[1])
         # Shape multiple frame data with transpose.
         else:
-            data = np.transpose(data)
+            data = data[...].transpose()
 
-        add_kwargs = {}
+        add_kwargs = {'metadata': self.unpackMetadata()}
 
         layer_type = "image"  # optional, default is "image"
 
         return (data, add_kwargs, layer_type)
+
 
 def napari_get_reader(path):
     """A basic implementation of a Reader contribution.
