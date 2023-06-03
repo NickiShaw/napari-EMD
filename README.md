@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/NickiShaw/napari-EMD/branch/main/graph/badge.svg)](https://codecov.io/gh/NickiShaw/napari-EMD)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-EMD)](https://napari-hub.org/plugins/napari-EMD)
 
-A simple plugin to view .emd files in napari (Velox files)
+A simple plugin to view .emd files in napari (i.e. Velox files). Allows users to track metadata as it changes over the course of a video/stack, developed for analysis of in-situ microscopy data, where users may be changing magnification, focus, etc. during aquisition.
 
 ----------------------------------
 
@@ -25,10 +25,11 @@ https://napari.org/stable/plugins/index.html
 
 You can install `napari-EMD` via [pip]:
 
-    pip install napari-EMD
+    `pip install napari-EMD`
 
+You can install napari and access the plugin through the GUI. [Reccomended install command for napari](https://napari.org/stable/tutorials/fundamentals/installation.html):
 
-
+    `python -m pip install "napari[all]"`
 
 ## Contributing
 
@@ -40,9 +41,20 @@ the coverage at least stays the same before you submit a pull request.
 Distributed under the terms of the [BSD-3] license,
 "napari-EMD" is free and open source software
 
-## Issues
+## Issues and Requests
 
-If you encounter any problems, please [file an issue] along with a detailed description.
+If you encounter any problems or would like any functionality added, please [file an issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue) along with a detailed description.
+
+Current maintainer(s): [Nicki Shaw](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue)
+
+
+## To Do
+
+- Attatch last-opened information, so the widget does not reset when frames are changed and open toggle options are open remain.
+- Add a search bar for navigating metadata.
+- Output metadata as file option.
+- Add note to change order of open files to replacee active metadata view.
+- Make Singleframe note update automatically on change of file order.
 
 [napari]: https://github.com/napari/napari
 [Cookiecutter]: https://github.com/audreyr/cookiecutter
