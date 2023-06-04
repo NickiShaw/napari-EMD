@@ -145,7 +145,7 @@ class EMDreader:
         else:
             data = data[...].transpose()
 
-        add_kwargs = {'metadata': self.unpackMetadata()}
+        add_kwargs = {'metadata': {'tag': 'emdfile', 'frames_metadata': self.unpackMetadata()}}
 
         layer_type = "image"  # optional, default is "image"
 
