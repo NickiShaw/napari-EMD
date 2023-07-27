@@ -12,6 +12,12 @@ import ujson
 from collections.abc import Iterable
 
 
+def rotateFrame(stack):
+    for frame in range(len(stack)):
+        stack[frame] = np.rot90(stack[frame])
+    return stack
+
+
 class navigate:
 
     @staticmethod
@@ -144,6 +150,7 @@ class EMDreader:
         # Shape multiple frame data with transpose.
         else:
             data = data[...].transpose()
+            data = rotateFrame(data)
 
         add_kwargs = {'metadata': {'tag': 'emdfile', 'frames_metadata': self.unpackMetadata()}}
 
