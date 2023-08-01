@@ -3,8 +3,8 @@ import numpy as np
 from napari_emd._reader import EMDreader, rotateFrame, reader_function
 from napari_emd._tests.test_data.metadata import *
 
-multiple_frame_test = 'napari_emd/_tests/test_data/MultipleFrameTestData.emd'
-single_frame_test = 'napari_emd/_tests/test_data/SingleFrameTestData.emd'
+multiple_frame_test = 'test_data/MultipleFrameTestData.emd'
+single_frame_test = 'test_data/SingleFrameTestData.emd'
 
 test_files = [multiple_frame_test, single_frame_test]
 
