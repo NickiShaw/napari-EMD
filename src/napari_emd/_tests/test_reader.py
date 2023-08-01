@@ -1,31 +1,68 @@
+import unittest
 import numpy as np
+from napari_emd._reader import EMDreader, rotateFrame, reader_function
+from napari_emd._tests.test_data.metadata import *
 
-from napari_emd import napari_get_reader
+multiple_frame_test = 'napari_emd/_tests/test_data/MultipleFrameTestData.emd'
+single_frame_test = 'napari_emd/_tests/test_data/SingleFrameTestData.emd'
 
+test_files = [multiple_frame_test, single_frame_test]
 
-# tmp_path is a pytest fixture
-def test_reader(tmp_path):
-    """An example of how you might test your plugin."""
-    pass
-    # write some fake data using your supported file format
-    # my_test_file = str(tmp_path / "myfile.emd")
-    # original_data = np.random.rand(20, 20)
-    # np.save(my_test_file, original_data)
-    #
-    # # try to read it back in
-    # reader = napari_get_reader(my_test_file)
-    # assert callable(reader)
-    #
-    # # make sure we're delivering the right format
-    # layer_data_list = reader(my_test_file)
-    # assert isinstance(layer_data_list, list) and len(layer_data_list) > 0
-    # layer_data_tuple = layer_data_list[0]
-    # assert isinstance(layer_data_tuple, tuple) and len(layer_data_tuple) > 0
-    #
-    # # make sure it's the same as it started
-    # np.testing.assert_allclose(original_data, layer_data_tuple[0])
+test_file_metadata = [test_metadata_multiframe, test_metadata_singleframe]
+
+test_file_metadata_raw = [(1024, 1024, 23), (2048, 2048, 1)]
 
 
-def test_get_reader_pass():
-    reader = napari_get_reader("fake.notemd")
-    assert reader is None
+class TestEMDReader(unittest.TestCase):
+
+    def test_convertASCII(self):
+        # Test the convertASCII method
+        emd_reader = EMDreader("")
+        converted1 = emd_reader.convertASCII(test_metadata_ascii, 0)
+        converted2 = emd_reader.convertASCII(test_metadata_ascii, 1)
+        self.assertDictEqual(converted1, {'fruit': 'Apple', 'size': 'Large', 'color': 'Red'})
+        self.assertDictEqual(converted2,
+                             {'quiz': {'sport': {'q1': {'question': 'Which one is correct team name in NBA?',
+                                                        'options': ['New York Bulls', 'Los Angeles Kings',
+                                                                    'Golden State Warriros', 'Huston Rocket'],
+                                                        'answer': 'Huston Rocket'}}, 'maths': {
+                                 'q1': {'question': '5 + 7 = ?', 'options': ['10', '11', '12', '13'], 'answer': '12'},
+                                 'q2': {'question': '12 - 8 = ?', 'options': ['1', '2', '3', '4'], 'answer': '4'}}}})
+
+    def test_unpackMetadata(self):
+        # Test the unpackMetadata method
+        for i in [0, 1]:
+            emd_reader = EMDreader(test_files[i])
+            metadata = emd_reader.unpackMetadata()
+            self.assertDictEqual(metadata, test_file_metadata[i])
+
+    def test_unpackData(self):
+        # Test the unpackData method
+        for i in [0, 1]:
+            emd_reader = EMDreader(test_files[i])
+            data = emd_reader.unpackData()
+            self.assertEqual(data.shape, test_file_metadata_raw[i])
+
+    def test_parseEMDdata(self):
+        # Test the parseEMDdata method
+        for i in [0, 1]:
+            emd_reader = EMDreader(test_files[i])
+            data, add_kwargs, layer_type = emd_reader.parseEMDdata()
+            self.assertIsInstance(data, np.ndarray)
+            self.assertIsInstance(add_kwargs, dict)
+            self.assertIsInstance(layer_type, str)
+
+
+class TestRotateFrame(unittest.TestCase):
+
+    def test_rotateFrame(self):
+        # Test the rotateFrame function
+        data = np.array([[[2, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]],
+                         [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]])
+        rotated_data = rotateFrame(data)
+        self.assertEqual(rotated_data.tolist(), [[[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [2, 1, 1, 1]],
+                                                 [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 0, 0, 0]]])
+
+
+if __name__ == '__main__':
+    unittest.main()

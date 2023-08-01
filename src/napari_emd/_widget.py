@@ -143,6 +143,7 @@ class EMDWidget(QWidget):
 
         self.update_metadata()
 
+
     def is_current_layer_emd(self):
         if len(self.viewer.layers) == 0:
             return False

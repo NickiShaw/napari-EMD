@@ -1,15 +1,6 @@
-"""
-This module is an example of a barebones numpy reader plugin for napari.
-
-It implements the Reader specification, but your plugin may choose to
-implement multiple readers or even other plugin contributions. see:
-https://napari.org/stable/plugins/guides.html?#readers
-"""
 import numpy as np
 import h5py
-import time
 import ujson
-from collections.abc import Iterable
 
 
 def rotateFrame(stack):
@@ -91,7 +82,8 @@ class EMDreader:
 
     def __init__(self, singlePath: str):
         self.path = singlePath
-        self.singleH5pyObject = h5py.File(singlePath, 'r', driver='core')
+        if self.path:
+            self.singleH5pyObject = h5py.File(singlePath, 'r', driver='core')
 
     @staticmethod
     def convertASCII(transposed_meta, frame):

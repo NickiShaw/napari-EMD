@@ -45,6 +45,7 @@ coverage.xml
 *,cover
 .hypothesis/
 .napari_cache
+temp/
 
 # Translations
 *.mo
