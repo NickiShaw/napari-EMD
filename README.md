@@ -4,7 +4,6 @@
 [![PyPI](https://img.shields.io/pypi/v/napari-EMD.svg?color=green)](https://pypi.org/project/napari-EMD)
 [![Python Version](https://img.shields.io/pypi/pyversions/napari-EMD.svg?color=green)](https://python.org)
 [![tests](https://github.com/NickiShaw/napari-EMD/workflows/tests/badge.svg)](https://github.com/NickiShaw/napari-EMD/actions)
-[![codecov](https://codecov.io/gh/NickiShaw/napari-EMD/branch/main/graph/badge.svg)](https://codecov.io/gh/NickiShaw/napari-EMD)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-EMD)](https://napari-hub.org/plugins/napari-EMD)
 
 A simple plugin to view .emd files in napari (i.e. Velox files). Allows users to track metadata as it changes over the course of a video/stack, developed for analysis of in-situ microscopy data, where users may be changing magnification, focus, etc. during aquisition.
