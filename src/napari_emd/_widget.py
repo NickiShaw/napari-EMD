@@ -1,7 +1,3 @@
-from napari.utils.notifications import show_info
-import napari
-from napari_plugin_engine import napari_hook_implementation
-
 from qtpy.QtWidgets import QVBoxLayout, QTabWidget, QWidget, QLabel, QTreeWidget, QTreeWidgetItem
 from typing import TYPE_CHECKING
 

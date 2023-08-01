@@ -1,9 +1,4 @@
-import numpy as np
 from napari_emd._widget import EMDWidget
-import unittest
-from qtpy.QtWidgets import QApplication
-from napari.utils._testsupport import make_napari_viewer
-import napari
 
 
 def test_example_q_widget(make_napari_viewer, capsys):
