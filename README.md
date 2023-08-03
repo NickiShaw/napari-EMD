@@ -42,10 +42,11 @@ Distributed under the terms of the [BSD-3] license,
 
 ## Issues and Requests
 
+> **Warning: The metadata viewer does not work in the current [Napari bundle](https://napari.org/stable/tutorials/fundamentals/installation.html#install-as-a-bundled-app) version (August 2023). Use the [python package version](https://napari.org/stable/tutorials/fundamentals/installation.html#install-as-python-package-recommended) of Napari for this feature.**
+
 If you encounter any problems or would like any functionality added, please [file an issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue) along with a detailed description.
 
 Current maintainer(s): [Nicki Shaw](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue)
-
 
 ## To Do
 
