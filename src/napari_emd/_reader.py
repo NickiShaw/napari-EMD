@@ -5,7 +5,7 @@ import ujson
 
 def rotateFrame(stack):
     for frame in range(len(stack)):
-        stack[frame] = np.rot90(stack[frame])
+        stack[frame] = np.flipud(np.rot90(stack[frame]))
     return stack
 
 
