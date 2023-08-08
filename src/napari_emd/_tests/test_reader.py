@@ -57,11 +57,11 @@ class TestRotateFrame(unittest.TestCase):
 
     def test_rotateFrame(self):
         # Test the rotateFrame function
-        data = np.array([[[2, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]],
-                         [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]])
+        data = np.array([[[1,2,3,4], [5,6,7,8], [9,10,11,12], [13,14,15,16]],
+                         [[17,18,19,20], [21,22,23,24], [25,26,27,28], [29,30,31,32]]])
         rotated_data = rotateFrame(data)
-        self.assertEqual(rotated_data.tolist(), [[[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [2, 1, 1, 1]],
-                                                 [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 0, 0, 0]]])
+        self.assertEqual(rotated_data.tolist(), [[[1,5,9,13],[2,6,10,14],[3,7,11,15],[4,8,12,16]],
+                                                 [[17,21,25,29],[18,22,26,30],[19,23,27,31],[20,24,28,32]]])
 
 
 if __name__ == '__main__':
