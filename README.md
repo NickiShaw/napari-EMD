@@ -48,6 +48,11 @@ If you encounter any problems or would like any functionality added, please [fil
 
 Current maintainer(s): [Nicki Shaw](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue)
 
+## Preview
+
+Images A and B show different frames in the same image stack, the metadata plugin on the right shows the changing focus value.
+![NapariEMD screenshots](Images/napariEMD_screenshots.jpg)
+
 ## To Do
 
 - Attatch last-opened information, so the widget does not reset when frames are changed and open toggle options are open remain.
